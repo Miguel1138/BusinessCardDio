@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miguelsantos.businesscard.App
 import com.miguelsantos.businesscard.databinding.ActivityMainBinding
+import com.miguelsantos.businesscard.utils.Image
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        binding.mainRecyclerCardList.adapter = adapter
+        binding.mainRecyclerCardList.layoutManager = LinearLayoutManager(applicationContext)
+
         getAllCards()
         setListeners()
     }
@@ -29,8 +34,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.mainRecyclerCardList.adapter = adapter
-        binding.mainRecyclerCardList.layoutManager = LinearLayoutManager(applicationContext)
+        adapter.listenerShare = { card ->
+            Image.share(this@MainActivity, card)
+        }
     }
 
     private fun getAllCards() {
